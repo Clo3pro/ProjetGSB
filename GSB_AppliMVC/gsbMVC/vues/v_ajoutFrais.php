@@ -6,19 +6,19 @@ echo"
 <tr>
 	<td>Date du frais (jj/mois/aaaa)</td>
 	<td>
-		<input  type='text' name=dateFrais  size='30' maxlength='45'>
+		<input  type='text' name='dateFrais'  size='30' maxlength='45'>
 	</td>
 </tr>
 <tr>
 	<td>Description du frais</td>
 	<td>
-		<input  type='text' name=description  size='50' maxlength='100'>
+		<input  type='text' name='description'  size='50' maxlength='100'>
 	</td>
 </tr>
 <tr>
 	<td>Montant engage</td>
 	<td>
-		<input  type='text' name=montant  size='30' maxlength='45'>
+		<input  type='text' name='montant'  size='30' maxlength='45'>
 	</td>
 </tr>
 <tr>
