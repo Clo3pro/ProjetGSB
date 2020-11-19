@@ -348,3 +348,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+#working files: db connect info
+GSB_AppliMVC/gsbMVC/include/class.pdogsb.inc.php
