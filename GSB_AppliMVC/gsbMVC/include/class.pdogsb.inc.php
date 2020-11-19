@@ -123,7 +123,7 @@ class PdoGsb{
  * @return l'id, le libelle et la quantité sous la forme d'un tableau associatif 
 */
 	public function getLesFraisForfait($idVisiteur, $mois){
-		$req = "select fraisforfait.id as idfrais, fraisforfait.libelle as libelle, 
+		$req = "select fraisforfait.id as idfrais, fraisforfait.libelle as libelle, fraisforfait.montant as montantUnitaire,
 		lignefraisforfait.quantite as quantite from lignefraisforfait inner join fraisforfait 
 		on fraisforfait.id = lignefraisforfait.idfraisforfait
 		where lignefraisforfait.idvisiteur ='$idVisiteur' and lignefraisforfait.mois='$mois' 

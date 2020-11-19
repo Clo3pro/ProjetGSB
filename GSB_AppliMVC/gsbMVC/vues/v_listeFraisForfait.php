@@ -3,16 +3,17 @@
          
       <form method="POST"  action="index.php?uc=gererFrais&action=validerMajFraisForfait">
       <div class="corpsForm">
-          
+         
           <fieldset>
             <legend>Eléments forfaitisés
             </legend>
 			<?php
+      
 				foreach ($lesFraisForfait as $unFrais)
 				{
 					$idFrais = $unFrais['idfrais'];
 					$libelle = $unFrais['libelle'];
-					$quantite = $unFrais['quantite'];
+          $quantite = $unFrais['quantite'];
 			?>
 					<p>
 						<label for="idFrais"><?php echo $libelle ?></label>
