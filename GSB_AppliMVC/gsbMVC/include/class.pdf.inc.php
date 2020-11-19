@@ -1,7 +1,6 @@
 <?php
-
-require("fpdf/fpdf.php");
-include("class.pdogsb.inc.php");
+require("./require/fpdf/fpdf.php");
+require_once("include/class.pdogsb.inc.php");
 // Création de la class PDF
 class PDF extends FPDF {
     // Header
@@ -12,9 +11,9 @@ class PDF extends FPDF {
       $this->Ln(20);
 
       // Titre gras (B) police Helbetica de 11
-      $this->SetFont('Helvetica','B',11);
+      $this->SetFont('Helvetica','B',11); 
       // fond de couleur gris (valeurs en RGB)
-      $this->SetTextColor(31,73,125)
+      $this->SetTextColor(31,73,125);
        // position du coin supérieur gauche par rapport à la marge gauche (mm)
       $this->SetX(70);
       // Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
@@ -56,20 +55,67 @@ class PDF extends FPDF {
       $pdf->Cell(60,8,$id,0,1,1);
       $pdf->SetX(90);
       // Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
-      $pdf->Cell(60,8,"'.$prenom.' '.$nom.'",0,1);
+      $pdf->Cell(90,8,"'.$prenom.' '.$nom.'",0,1);
        // Saut de ligne 10 mm
        $pdf->Ln(5);
         // Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
       $pdf->Cell(60,8,"Mois",0,1,1);
       $pdf->SetX(90);
       // Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok
-      $EcritureMois;
+      $EcritureMois = "actuel";
       switch($numMois){
         case '01': {
-          
+          $EcritureMois = "Janvier";
+          break;
         }
+        case '02': {
+          $EcritureMois = "Février";
+          break;
+        }
+        case '03': {
+          $EcritureMois = "Mars";
+          break;
+        }
+        case '04': {
+          $EcritureMois = "Avril";
+          break;
+        }
+        case '05': {
+          $EcritureMois = "Mai";
+          break;
+        }
+        case '06': {
+          $EcritureMois = "Juin";
+          break;
+        }
+        case '07': {
+          $EcritureMois = "Juillet";
+          break;
+        }
+        case '08': {
+          $EcritureMois = "Août";
+          break;
+        }
+        case '09': {
+          $EcritureMois = "Septembre";
+          break;
+        }
+        case '10': {
+          $EcritureMois = "Octobre";
+          break;
+        }
+        case '11': {
+          $EcritureMois = "Novembre";
+          break;
+        }
+        case '12': {
+          $EcritureMois = "Décembre";
+          break;
+        }
+
       }
-      $pdf->Cell(60,8,"'.$prenom.' '.$numAnnee.'",0,1);
+      $pdf->Cell(60,8,"'.$EcritureMois.' '.$numAnnee.'",0,1);
+      $pdf->Ln(10);
 
       $position_entete = 70;
       // police des caractères
@@ -87,7 +133,7 @@ class PDF extends FPDF {
       $pdf->SetFillColor(221); // Couleur des filets RVB
       $pdf->SetTextColor(31,73,125); // Couleur du texte noir
       $pdf->SetY($position_entete);
-      // position de colonne 1 (10mm à gauche)  
+      // position de colonne 1 (10mm à gauche)
       $pdf->SetX(10);
       $pdf->Cell(60,8,'Frais Forfaitaires',1,0,'C',1);  // 60 >largeur colonne, 8 >hauteur colonne
       // position de la colonne 2 (70 = 10+60)
