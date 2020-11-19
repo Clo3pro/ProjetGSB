@@ -1,5 +1,5 @@
 ﻿<?php
-include("includes/class.pdf.php");
+//include("include/class.pdf.inc.php");
 /** 
  * Classe d'accès aux données. 
  
@@ -90,8 +90,8 @@ class PdoGsb{
  * @return tous les champs des lignes de frais hors forfait sous la forme d'un tableau associatif 
 */
 	public function getLesFraisHorsForfait($idVisiteur,$mois){
-	    $req = "select * from lignefraishorsforfait where lignefraishorsforfait.idvisiteur ='$idVisiteur' 
-		and lignefraishorsforfait.mois = '$mois' ";	
+	    $req = "select * from LigneFraisHorsForfait where LigneFraisHorsForfait.idvisiteur ='$idVisiteur' 
+		and LigneFraisHorsForfait.mois = '$mois' ";	
 		$res = PdoGsb::$monPdo->query($req);
 		$lesLignes = $res->fetchAll();
 		$nbLignes = count($lesLignes);
@@ -248,8 +248,8 @@ class PdoGsb{
 */
 	public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$montant){
 		$dateFr = dateFrancaisVersAnglais($date);
-		$req = "insert into lignefraishorsforfait
-		values('','$idVisiteur','$mois','$libelle','$dateFr','$montant')";
+		$req = "insert into LigneFraisHorsForfait
+		values('','$idVisiteur','$mois','$libelle','$dateFr','$montant');";
 		PdoGsb::$monPdo->exec($req);
 	}
 /**
