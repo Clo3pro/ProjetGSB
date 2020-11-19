@@ -14,7 +14,7 @@ class PDF extends FPDF {
       // Titre gras (B) police Helbetica de 11
       $this->SetFont('Helvetica','B',11);
       // fond de couleur gris (valeurs en RGB)
-      $this->SetTextColor(31,73,125)
+      $this->SetTextColor(31,73,125);
        // position du coin supérieur gauche par rapport à la marge gauche (mm)
       $this->SetX(70);
       // Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
