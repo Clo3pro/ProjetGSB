@@ -1,5 +1,5 @@
-﻿<?php
-//include("include/class.pdf.inc.php");
+﻿﻿<?php
+require_once("include/class.pdf.inc.php");
 /** 
  * Classe d'accès aux données. 
  
