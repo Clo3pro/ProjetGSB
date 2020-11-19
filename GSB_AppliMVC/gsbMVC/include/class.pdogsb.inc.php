@@ -1,4 +1,5 @@
 ﻿<?php
+include("includes/class.pdf.php");
 /** 
  * Classe d'accès aux données. 
  
@@ -47,7 +48,7 @@ class PdoGsb{
 		return PdoGsb::$monPdoGsb;  
 	}
 /**
- * Retourne les informations d'un visiteur
+ * Retourne les informations d'un visiteur par login
  
  * @param $login 
  * @param $mdp
@@ -56,6 +57,22 @@ class PdoGsb{
 	public function getInfosVisiteur($login, $mdp){
 		$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom from visiteur 
 		where visiteur.login='$login' and visiteur.mdp='$mdp'";
+		$rs = PdoGsb::$monPdo->query($req);
+		$ligne = $rs->fetch();
+		return $ligne;
+	}
+
+
+
+	/**
+	 * Retourne les informations d'un visiteur par ID
+	 
+	* @param $idVisiteur 
+	* @return l'id, le nom et le prénom sous la forme d'un tableau associatif 
+	*/
+	public function getInfosVisiteurById($idVisiteur){
+		$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom from visiteur 
+		where visiteur.id = '.$idVisiteur.' ";
 		$rs = PdoGsb::$monPdo->query($req);
 		$ligne = $rs->fetch();
 		return $ligne;
@@ -206,7 +223,6 @@ class PdoGsb{
 		$laDerniereFiche = $this->getLesInfosFicheFrais($idVisiteur,$dernierMois);
 		if($laDerniereFiche['idEtat']=='CR'){
 				$this->majEtatFicheFrais($idVisiteur, $dernierMois,'CL');
-				
 		}
 		$req = "insert into fichefrais(idvisiteur,mois,nbJustificatifs,montantValide,dateModif,idEtat) 
 		values('$idVisiteur','$mois',0,0,now(),'CR')";
@@ -218,6 +234,7 @@ class PdoGsb{
 			values('$idVisiteur','$mois','$unIdFrais',0)";
 			PdoGsb::$monPdo->exec($req);
 		 }
+		
 	}
 /**
  * Crée un nouveau frais hors forfait pour un visiteur un mois donné
@@ -231,7 +248,7 @@ class PdoGsb{
 */
 	public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$montant){
 		$dateFr = dateFrancaisVersAnglais($date);
-		$req = "insert into lignefraishorsforfait 
+		$req = "insert into lignefraishorsforfait
 		values('','$idVisiteur','$mois','$libelle','$dateFr','$montant')";
 		PdoGsb::$monPdo->exec($req);
 	}
@@ -265,7 +282,7 @@ class PdoGsb{
 		    "numAnnee"  => "$numAnnee",
 			"numMois"  => "$numMois"
              );
-			$laLigne = $res->fetch(); 		
+			$laLigne = $res->fetch();
 		}
 		return $lesMois;
 	}
