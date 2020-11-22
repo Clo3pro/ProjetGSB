@@ -33,22 +33,15 @@ switch($action){
 	break;
 	}
 	case 'createPDF':{
-		$leMois = $_REQUEST['lstMois'];
-		$lesMois=$pdo->getLesMoisDisponibles($idVisiteur);
-		$moisASelectionner = $leMois;
+		$pdf = new FPDF();
 		$numMois = $_REQUEST['numMois'];
 		$numAnnee = $_REQUEST['numAnnee'];
-		$pdf = new FPDF();
+		$mois = $_REQUEST['mois'];
 		$pdf->AddPage();
-		// On active la classe une fois pour toutes les pages suivantes
-		// Format portrait (>P) ou paysage (>L), en mm (ou en points > pts), A4 (ou A5, etc.
-		// Nouvelle page A4 (incluant ici logo, titre et pied de page)
-		// Polices par défaut : Helvetica taille 24
 		$pdf->SetFont('Helvetica','',24);
 		$pdf->SetTextColor(31,73,125);
-		// Compteur de pages {nb}
-		$pdf->AliasNbPages();
 		$pdf->SetX(70);
+		$pdf->Image('./images/logo.jpg',8,'C',1);
 		// Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
 		$pdf->Cell(60,8,'REMBOURSEMENT DE FRAIS ENGAGES',0,1,'C');
 		// Saut de ligne 10 mm
@@ -132,7 +125,7 @@ switch($action){
 		$pdf->SetTextColor(31,73,125);
 		// on affiche les en-têtes du tableau
 		//entete_table($position_entete);
-		$lesFraisForfait= $pdo->getLesFraisForfait($idVisiteur,$leMois);
+		$lesFraisForfait= $pdo->getLesFraisForfait($idVisiteur,$mois);
 		foreach ($lesFraisForfait as $unFrais){
 		// position abcisse de la colonne 1 (10mm du bord)
 		$pdf->SetY($position_detail);

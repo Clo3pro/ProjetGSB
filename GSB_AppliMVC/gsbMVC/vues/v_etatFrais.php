@@ -11,6 +11,7 @@
     <form method="POST" action="index.php?uc=etatFrais&action=createPDF">
       <input type="text" style="display:none" name="numMois" value="<?php echo $numMois;?>">
       <input type="text" style="display:none" name="numAnnee" value="<?php echo $numAnnee;?>">
+      <input type="text" style="display:none" name="mois" value="<?php echo $mois;?>">
       <input type="submit" value="DownLoad PDF" />
     </form>
   	<table class="listeLegere">
