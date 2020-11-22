@@ -38,32 +38,31 @@ switch($action){
 		$numAnnee = $_REQUEST['numAnnee'];
 		$mois = $_REQUEST['mois'];
 		$pdf->AddPage();
-		$pdf->SetFont('Helvetica','',24);
+		$pdf->SetFont('Helvetica','B',11); 
+		// fond de couleur gris (valeurs en RGB)
+	   	$pdf->SetTextColor(31,73,125);
+		// Logo : 8 >position à gauche du document (en mm), 2 >position en haut du document, 80 >largeur de l'image en mm). La hauteur est calculée automatiquement.
+		$pdf->Image('./images/logo.jpg',8,2);
+		// Titre gras (B) police Helbetica de 11
+		$pdf->SetFont('Helvetica','B',16); 
+		// fond de couleur gris (valeurs en RGB)
 		$pdf->SetTextColor(31,73,125);
-		$pdf->SetX(70);
-		$pdf->Image('./images/logo.jpg',8,'C',1);
+		// position du coin supérieur gauche par rapport à la marge gauche (mm)
+		$pdf->SetX(90);
 		// Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
 		$pdf->Cell(60,8,'REMBOURSEMENT DE FRAIS ENGAGES',0,1,'C');
-		// Saut de ligne 10 mm
-		$pdf->Ln(10);
+		// Saut de ligne 10 mm     
+		$pdf->Ln(30);
 		$pdf->SetX(10);
 		// Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
-		$pdf->Cell(60,8,'Visiteur',0,1,'C',1);
+		$pdf->Cell(90,0,'Visiteur numéro : '.$idVisiteur,0,1);
 		$pdf->SetX(40);
+		$pdf->Ln(10);
 		$visiteur = $pdo->getInfosVisiteurById($idVisiteur);
-		$nom =  $visiteur['nom'];
-		$prenom = $visiteur['prenom'];
 		// Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
-		$pdf->Cell(60,8,$idVisiteur,0,1,1);
-		$pdf->SetX(90);
-		// Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
-		$pdf->Cell(90,8,"'.$prenom .' '.$nom",0,1);
+		$pdf->Cell(60,0,'Nom et Prénom : '.$visiteur["prenom"].'-'.$visiteur["nom"],0,1);
 		// Saut de ligne 10 mm
-		$pdf->Ln(5);
-		// Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
-		$pdf->Cell(60,8,"Mois",0,1,1);
-		$pdf->SetX(90);
-		// Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok
+		$pdf->Ln(10);
 		$EcritureMois = "actuel";
 		switch($numMois){
 		case '01': {
@@ -115,30 +114,50 @@ switch($action){
 		break;
 		}
     }
-		$pdf->Cell(60,8,"'.$EcritureMois.' '.$numAnnee.'",0,1);
+		$pdf->Cell(60,0,'Pour '.$EcritureMois.' '.$numAnnee,0,1);
 		$pdf->Ln(10);
 
-		$position_entete = 70;
-		$position_detail = 78;
+		$position_entete = 74;
+		$position_detail = 82;
 		// police des caractères
 		$pdf->SetFont('Helvetica','',9);
 		$pdf->SetTextColor(31,73,125);
 		// on affiche les en-têtes du tableau
-		//entete_table($position_entete);
+		$pdf->SetDrawColor(183); // Couleur du fond RVB
+		$pdf->SetFillColor(221); // Couleur des filets RVB
+		$pdf->SetTextColor(0); // Couleur du texte noir
+		$pdf->SetY($position_entete);
+		// position de colonne 1 (10mm à gauche)  
+		$pdf->SetX(15);
+		$pdf->Cell(60,8,'Nom',1,0,'C',1);  // 60 >largeur colonne, 8 >hauteur colonne
+		// position de la colonne 2 (70 = 10+60)
+		$pdf->SetX(75); 
+		$pdf->Cell(60,8,'Quantité',1,0,'C',1);
+		// position de la colonne 3 (130 = 70+60)
+		$pdf->SetX(135); 
+		$pdf->Cell(30,8,'Montant Unitaire',1,0,'C',1);
+		$pdf->SetX(165); 
+		$pdf->Cell(30,8,'Total',1,0,'C',1);
 		$lesFraisForfait= $pdo->getLesFraisForfait($idVisiteur,$mois);
 		foreach ($lesFraisForfait as $unFrais){
 		// position abcisse de la colonne 1 (10mm du bord)
 		$pdf->SetY($position_detail);
-		$pdf->SetX(10);
+		$pdf->SetX(15);
 		$pdf->MultiCell(60,8,$unFrais['libelle'],1,'C');
 			// position abcisse de la colonne 2 (70 = 10 + 60)
 		$pdf->SetY($position_detail);
-		$pdf->SetX(70); 
+		$pdf->SetX(75); 
 		$pdf->MultiCell(60,8,$unFrais['quantite'],1,'C');
 		// position abcisse de la colonne 3 (130 = 70+ 60)
 		$pdf->SetY($position_detail);
-		$pdf->SetX(130); 
+		$pdf->SetX(135); 
 		$pdf->MultiCell(30,8,$unFrais['montantUnitaire'],1,'C');
+		// on incrémente la position ordonnée de la ligne suivante (+8mm = hauteur des cellules)
+		// position abcisse de la colonne 3 (130 = 70+ 60)
+		$pdf->SetY($position_detail);
+		$pdf->SetX(165);
+		$total = $unFrais['montantUnitaire']*$unFrais['quantite'];
+		$pdf->MultiCell(30,8,$total,1,'C');
 		// on incrémente la position ordonnée de la ligne suivante (+8mm = hauteur des cellules)
 		$position_detail += 8;
 		}
