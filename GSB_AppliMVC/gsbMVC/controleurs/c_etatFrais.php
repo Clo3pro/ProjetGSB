@@ -60,7 +60,7 @@ switch($action){
 		$pdf->Ln(10);
 		$visiteur = $pdo->getInfosVisiteurById($idVisiteur);
 		// Texte : 60 >largeur ligne, 8 >hauteur ligne. Premier 0 >pas de bordure, 1 >retour à la ligneensuite, C >centrer texte, 1> couleur de fond ok  
-		$pdf->Cell(60,0,'Nom et Prénom : '.$visiteur["prenom"].'-'.$visiteur["nom"],0,1);
+		$pdf->Cell(60,0,'Nom et Prénom : '.$visiteur["prenom"].' - '.$visiteur["nom"],0,1);
 		// Saut de ligne 10 mm
 		$pdf->Ln(10);
 		$EcritureMois = "actuel";
@@ -115,10 +115,9 @@ switch($action){
 		}
     }
 		$pdf->Cell(60,0,'Pour '.$EcritureMois.' '.$numAnnee,0,1);
-		$pdf->Ln(10);
 
-		$position_entete = 74;
-		$position_detail = 82;
+		$position_entete = 78;
+		$position_detail = 86;
 		// police des caractères
 		$pdf->SetFont('Helvetica','',9);
 		$pdf->SetTextColor(31,73,125);

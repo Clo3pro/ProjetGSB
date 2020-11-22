@@ -71,7 +71,7 @@ class PdoGsb{
 	*/
 	public function getInfosVisiteurById($idVisiteur){
 		$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom from visiteur 
-		where visiteur.id = '.$idVisiteur.' ";
+		where visiteur.id = '".$idVisiteur."' ";
 		$rs = PdoGsb::$monPdo->query($req);
 		$ligne = $rs->fetch();
 		return $ligne;
