@@ -1,5 +1,5 @@
 ﻿<?php
-require("./require/fpdf/fpdf.php");
+require("./require/tfpdf/tfpdf.php");
 include("vues/v_sommaire.php");
 $action = $_REQUEST['action'];
 $idVisiteur = $_SESSION['idVisiteur'];
@@ -33,7 +33,9 @@ switch($action){
 	break;
 	}
 	case 'createPDF':{
-		$pdf = new FPDF();
+		
+		$pdf = new tFPDF();
+		include("vues/v_entete.php");
 		$numMois = $_REQUEST['numMois'];
 		$numAnnee = $_REQUEST['numAnnee'];
 		$mois = $_REQUEST['mois'];
@@ -161,7 +163,7 @@ switch($action){
 		$position_detail += 8;
 		}
 		ob_end_clean();
-		$pdf->Output('test.pdf', 'I');
+		$pdf->Output('Fiche de frais.pdf', 'D', true);
 	break;
 	}
 }
