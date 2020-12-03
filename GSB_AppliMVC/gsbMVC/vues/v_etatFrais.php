@@ -69,9 +69,14 @@
              </tr>
         <?php 
           }
-        echo "<tr>".$montantGlobalTotal."</tr>";
+        
 		?>
     
+    </table>
+    <table>
+    <tr>
+    <th>Montant Total du mois</th></tr>
+      <tr><td><?php $montantGlobalTotal?></td></tr>
     </table>
   </div>
   </div>
