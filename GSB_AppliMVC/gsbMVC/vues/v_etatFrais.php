@@ -26,18 +26,20 @@
         </tr>
         
          <?php
+         $montantGlobalTotal = 0;
          foreach ( $lesFraisForfait as $unFraisForfait ) 
 		 {
           $libelle = $unFraisForfait['libelle'];
           $quantite = $unFraisForfait['quantite'];
           $montantUni = $unFraisForfait['montantUnitaire'];
           $montantTotal = $quantite * $montantUni;
+          $montantGlobalTotal += $montantTotal;
 		?>	
       <tr>
-			  <th> <?php echo $libelle?></th>
-        <th> <?php echo $quantite?></th>
-        <th> <?php echo $montantUni?></th>
-        <th> <?php echo $montantTotal?></th>
+			  <td> <?php echo $libelle?></td>
+        <td> <?php echo $quantite?></td>
+        <td> <?php echo $montantUni?></td>
+        <td> <?php echo $montantTotal?></td>
       </tr>
 		 <?php
         }
@@ -57,7 +59,8 @@
 		  {
 			$date = $unFraisHorsForfait['date'];
 			$libelle = $unFraisHorsForfait['libelle'];
-			$montant = $unFraisHorsForfait['montant'];
+      $montant = $unFraisHorsForfait['montant'];
+      $montantGlobalTotal += $montant;
 		?>
              <tr>
                 <td><?php echo $date ?></td>
@@ -66,7 +69,9 @@
              </tr>
         <?php 
           }
+        echo "<tr>".$montantGlobalTotal."</tr>";
 		?>
+    
     </table>
   </div>
   </div>
