@@ -1,4 +1,5 @@
 ﻿<?php
+require("./require/tfpdf/tfpdf.php");
 /** 
  * Classe d'accès aux données. 
  
@@ -108,7 +109,7 @@ public function getAllVisiteurs(){
 	    $req = "select * from lignefraishorsforfait where lignefraishorsforfait.idvisiteur ='$idVisiteur' 
 		and lignefraishorsforfait.mois = '$mois' ";	
 		$res = PdoGsb::$monPdo->query($req);
-		$lesLignes = $res->fetchAll();
+		$lesLignes = $res->fetchAll(PDO::FETCH_ASSOC);
 		$nbLignes = count($lesLignes);
 		for ($i=0; $i<$nbLignes; $i++){
 			$date = $lesLignes[$i]['date'];
@@ -261,12 +262,12 @@ public function getAllVisiteurs(){
  * @param $date : la date du frais au format français jj//mm/aaaa
  * @param $montant : le montant
 */
-	public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$montant){
-		$dateFr = dateFrancaisVersAnglais($date);
-		$req = "insert into lignefraishorsforfait
-		values('','$idVisiteur','$mois','$libelle','$dateFr','$montant')";
-		PdoGsb::$monPdo->exec($req);
-	}
+public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$montant){
+	$dateFr = dateFrancaisVersAnglais($date);
+	$req = "insert into lignefraishorsforfait (idVisiteur, mois, libelle, date, montant)
+	values('$idVisiteur','$mois','$libelle','$dateFr','$montant')";
+	PdoGsb::$monPdo->exec($req);
+}
 /**
  * Supprime le frais hors forfait dont l'id est passé en argument
  
