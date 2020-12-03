@@ -166,5 +166,16 @@ switch($action){
 		$pdf->Output('Fiche de frais.pdf', 'D', true);
 	break;
 	}
+	case 'selectionnerMoisPersonne': {
+		$lesMois=$pdo->getMois();
+		// Afin de sélectionner par défaut le dernier mois dans la zone de liste
+		// on demande toutes les clés, et on prend la première,
+		// les mois étant triés décroissants
+		$lesCles = array_keys( $lesMois );
+		$moisASelectionner = $lesCles[0];
+		$allVisiteur=$pdo->getAllVisiteurs();
+		include("vues/v_listeVisiteurMois.php");
+	break;
+	}
 }
 ?>

@@ -46,6 +46,8 @@ class PdoGsb{
 		}
 		return PdoGsb::$monPdoGsb;  
 	}
+
+
 /**
  * Retourne les informations d'un visiteur par login
  
@@ -76,6 +78,20 @@ class PdoGsb{
 		$ligne = $rs->fetch();
 		return $ligne;
 	}
+
+	
+/**
+ * Retourne les informations des visiteurs
+ 
+*/
+public function getAllVisiteurs(){
+	$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom, visiteur.role as role from visiteur";
+	$rs = PdoGsb::$monPdo->query($req);
+	$ligne = $rs->fetch();
+	return $ligne;
+}
+
+
 
 /**
  * Retourne sous forme d'un tableau associatif toutes les lignes de frais hors forfait
@@ -285,6 +301,31 @@ class PdoGsb{
 		}
 		return $lesMois;
 	}
+
+	/**
+ * Retourne les mois
+
+ * @return un tableau associatif de clé un mois -aaaamm- et de valeurs l'année et le mois correspondant 
+*/
+public function getMois(){
+	$req = "select fichefrais.mois as mois from  fichefrais
+	order by fichefrais.mois desc ";
+	$res = PdoGsb::$monPdo->query($req);
+	$lesMois =array();
+	$laLigne = $res->fetch();
+	while($laLigne != null)	{
+		$mois = $laLigne['mois'];
+		$numAnnee =substr( $mois,0,4);
+		$numMois =substr( $mois,4,2);
+		$lesMois["$mois"]=array(
+		 "mois"=>"$mois",
+		"numAnnee"  => "$numAnnee",
+		"numMois"  => "$numMois"
+		 );
+		$laLigne = $res->fetch();
+	}
+	return $lesMois;
+}
 /**
  * Retourne les informations d'une fiche de frais d'un visiteur pour un mois donné
  
