@@ -14,20 +14,22 @@
 					$idFrais = $unFrais['idfrais'];
 					$libelle = $unFrais['libelle'];
           $quantite = $unFrais['quantite'];
+          $montantUni = $unFrais['montantUnitaire'];
+          $montantTotal = $quantite*$montantUni;
 			?>
 					<p>
 						<label for="idFrais"><?php echo $libelle ?></label>
-						<input type="text" id="idFrais" name="lesFrais[<?php echo $idFrais?>]" size="10" maxlength="5" value="<?php echo $quantite?>" >
-					</p>
+						<input type="text" id="idFrais" name="quantite" size="10" maxlength="5" value="<?php echo $quantite?>" >
+					
+          </p>
+
+          <input type="text" id="idFrais2" name="montant" size="10" maxlength="5" value="<?php echo $montantUni?>" disabled>
+          <input type="text" id="idFrais3" name="total" size="10" maxlength="5" value="<?php echo $montantTotal?>">
 			
 			<?php
 				}
 			?>
-			
-			
-			
-			
-           
+			   
           </fieldset>
       </div>
       <div class="piedForm">

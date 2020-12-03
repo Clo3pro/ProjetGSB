@@ -17,27 +17,32 @@
   	<table class="listeLegere">
   	   <caption>Eléments forfaitisés </caption>
         <tr>
+            
+            <th>Frais Forfaitaires</th>
+            <th>Quantité</th>
+            <th>Montant Unitaire</th>
+            <th>Total</th>
+
+        </tr>
+        
          <?php
          foreach ( $lesFraisForfait as $unFraisForfait ) 
 		 {
-			$libelle = $unFraisForfait['libelle'];
+          $libelle = $unFraisForfait['libelle'];
+          $quantite = $unFraisForfait['quantite'];
+          $montantUni = $unFraisForfait['montantUnitaire'];
+          $montantTotal = $quantite * $montantUni;
 		?>	
-			<th> <?php echo $libelle?></th>
+      <tr>
+			  <th> <?php echo $libelle?></th>
+        <th> <?php echo $quantite?></th>
+        <th> <?php echo $montantUni?></th>
+        <th> <?php echo $montantTotal?></th>
+      </tr>
 		 <?php
         }
 		?>
-		</tr>
-        <tr>
-        <?php
-          foreach (  $lesFraisForfait as $unFraisForfait  ) 
-		  {
-				$quantite = $unFraisForfait['quantite'];
-		?>
-                <td class="qteForfait"><?php echo $quantite?> </td>
-		 <?php
-          }
-		?>
-		</tr>
+		
     </table>
   	<table class="listeLegere">
   	   <caption>Descriptif des éléments hors forfait -<?php echo $nbJustificatifs ?> justificatifs reçus -
