@@ -73,7 +73,7 @@
 		?>
     
     </table>
-    <table>
+    <table class="listeLegere">
     <tr>
     <th>Montant Total du mois</th></tr>
       <tr><td><?php $montantGlobalTotal?></td></tr>
