@@ -139,6 +139,7 @@ switch($action){
 		$pdf->SetX(165); 
 		$pdf->Cell(30,8,'Total',1,0,'C',1);
 		$lesFraisForfait= $pdo->getLesFraisForfait($idVisiteur,$mois);
+		$montantTotalFicheFrais = 0;
 		foreach ($lesFraisForfait as $unFrais){
 		// position abcisse de la colonne 1 (10mm du bord)
 		$pdf->SetY($position_detail);
@@ -160,9 +161,14 @@ switch($action){
 		$pdf->MultiCell(30,8,$total,1,'C');
 		// on incrémente la position ordonnée de la ligne suivante (+8mm = hauteur des cellules)
 		$position_detail += 8;
+		$montantTotalFicheFrais +=$total; 
 		}
-		$position_entete = 125;
-		$position_detail = 133;
+		$pdf->SetY($position_detail);
+		$pdf->SetX(165);
+		$pdf->MultiCell(30,8,$montantTotalFicheFrais." euros",1,'C');
+
+		$position_entete = 130;
+		$position_detail = 138;
 		// police des caractères
 		$pdf->SetFont('Helvetica','',9);
 		$pdf->SetTextColor(31,73,125);
@@ -197,13 +203,16 @@ switch($action){
 		$pdf->SetY($position_detail);
 		$pdf->SetX(135); 
 		$pdf->MultiCell(30,8,$unFraisHorsForfait['montant'],1,'C');
+		$pdf->SetY($position_detail);
+		$pdf->SetX(165); 
+		$pdf->MultiCell(30,8,"",1,'C');
 		// on incrémente la position ordonnée de la ligne suivante (+8mm = hauteur des cellules)
 		$position_detail += 8;
 		$totalMontantHorsForfait += $unFraisHorsForfait['montant'];
 		}
 		$pdf->SetY($position_detail);
 		$pdf->SetX(165);
-		$pdf->MultiCell(30,8,$totalMontantHorsForfait,1,'C');
+		$pdf->MultiCell(30,8,$totalMontantHorsForfait." euros",1,'C');
 		ob_end_clean();
 		$pdf->Output('Fiche de frais.pdf', 'D', true);
 		
