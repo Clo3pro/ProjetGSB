@@ -1,5 +1,4 @@
 ﻿<?php
-require("./require/tfpdf/tfpdf.php");
 include("vues/v_sommaire.php");
 $action = $_REQUEST['action'];
 $idVisiteur = $_SESSION['idVisiteur'];
@@ -20,6 +19,8 @@ switch($action){
 		$moisASelectionner = $leMois;
 		include("vues/v_listeMois.php");
 		$lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur,$leMois);
+		var_dump($lesFraisHorsForfait);
+		var_dump($_POST);
 		$lesFraisForfait= $pdo->getLesFraisForfait($idVisiteur,$leMois);
 		$lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur,$leMois);
 		$numAnnee =substr( $leMois,0,4);
@@ -33,12 +34,11 @@ switch($action){
 	break;
 	}
 	case 'createPDF':{
-		
-		$pdf = new tFPDF();
 		include("vues/v_entete.php");
 		$numMois = $_REQUEST['numMois'];
 		$numAnnee = $_REQUEST['numAnnee'];
-		$mois = $_REQUEST['mois'];
+		$mois = $numAnnee."".$numMois;
+		$pdf = new tFPDF();
 		$pdf->AddPage();
 		$pdf->SetFont('Helvetica','B',11); 
 		// fond de couleur gris (valeurs en RGB)
@@ -117,7 +117,6 @@ switch($action){
 		}
     }
 		$pdf->Cell(60,0,'Pour '.$EcritureMois.' '.$numAnnee,0,1);
-
 		$position_entete = 78;
 		$position_detail = 86;
 		// police des caractères
@@ -140,16 +139,17 @@ switch($action){
 		$pdf->SetX(165); 
 		$pdf->Cell(30,8,'Total',1,0,'C',1);
 		$lesFraisForfait= $pdo->getLesFraisForfait($idVisiteur,$mois);
+		$montantTotalFicheFrais = 0;
 		foreach ($lesFraisForfait as $unFrais){
 		// position abcisse de la colonne 1 (10mm du bord)
 		$pdf->SetY($position_detail);
 		$pdf->SetX(15);
 		$pdf->MultiCell(60,8,$unFrais['libelle'],1,'C');
-			// position abcisse de la colonne 2 (70 = 10 + 60)
+			// position abcisse de la colonne 2 (75 = 15 + 60)
 		$pdf->SetY($position_detail);
 		$pdf->SetX(75); 
 		$pdf->MultiCell(60,8,$unFrais['quantite'],1,'C');
-		// position abcisse de la colonne 3 (130 = 70+ 60)
+		// position abcisse de la colonne 3 (135 = 75+ 30)
 		$pdf->SetY($position_detail);
 		$pdf->SetX(135); 
 		$pdf->MultiCell(30,8,$unFrais['montantUnitaire'],1,'C');
@@ -161,9 +161,72 @@ switch($action){
 		$pdf->MultiCell(30,8,$total,1,'C');
 		// on incrémente la position ordonnée de la ligne suivante (+8mm = hauteur des cellules)
 		$position_detail += 8;
+		$montantTotalFicheFrais +=$total; 
 		}
+		$pdf->SetY($position_detail);
+		$pdf->SetX(165);
+		$pdf->MultiCell(30,8,$montantTotalFicheFrais." euros",1,'C');
+
+		$position_entete = 130;
+		$position_detail = 138;
+		// police des caractères
+		$pdf->SetFont('Helvetica','',9);
+		$pdf->SetTextColor(31,73,125);
+		// on affiche les en-têtes du tableau
+		$pdf->SetDrawColor(183); // Couleur du fond RVB
+		$pdf->SetFillColor(221); // Couleur des filets RVB
+		$pdf->SetTextColor(0); // Couleur du texte noir
+		$pdf->SetY($position_entete);
+		// position de colonne 1 (10mm à gauche)  
+		$pdf->SetX(15);
+		$pdf->Cell(60,8,'Date',1,0,'C',1);  // 60 >largeur colonne, 8 >hauteur colonne
+		// position de la colonne 2 (70 = 10+60)
+		$pdf->SetX(75); 
+		$pdf->Cell(60,8,'Libellé',1,0,'C',1);
+		// position de la colonne 3 (130 = 70+60)
+		$pdf->SetX(135); 
+		$pdf->Cell(30,8,'Montant',1,0,'C',1);
+		$pdf->SetX(165); 
+		$pdf->Cell(30,8,'Total',1,0,'C',1);
+		$totalMontantHorsForfait = 0;
+		$lesFraisHorsForfait=$pdo->getLesFraisHorsForfait($idVisiteur,$mois);
+		foreach($lesFraisHorsForfait as $unFraisHorsForfait){
+		// position abcisse de la colonne 1 (10mm du bord)
+		$pdf->SetY($position_detail);
+		$pdf->SetX(15);
+		$pdf->MultiCell(60,8, $unFraisHorsForfait['date'],1,'C');
+			// position abcisse de la colonne 2 (75 = 15 + 60)
+		$pdf->SetY($position_detail);
+		$pdf->SetX(75); 
+		$pdf->MultiCell(60,8,$unFraisHorsForfait['libelle'],1,'C');
+		// position abcisse de la colonne 3 (135 = 75+ 30)
+		$pdf->SetY($position_detail);
+		$pdf->SetX(135); 
+		$pdf->MultiCell(30,8,$unFraisHorsForfait['montant'],1,'C');
+		$pdf->SetY($position_detail);
+		$pdf->SetX(165); 
+		$pdf->MultiCell(30,8,"",1,'C');
+		// on incrémente la position ordonnée de la ligne suivante (+8mm = hauteur des cellules)
+		$position_detail += 8;
+		$totalMontantHorsForfait += $unFraisHorsForfait['montant'];
+		}
+		$pdf->SetY($position_detail);
+		$pdf->SetX(165);
+		$pdf->MultiCell(30,8,$totalMontantHorsForfait." euros",1,'C');
 		ob_end_clean();
 		$pdf->Output('Fiche de frais.pdf', 'D', true);
+		
+	break;
+	}
+	case 'selectionnerMoisPersonne': {
+		$lesMois=$pdo->getMois();
+		// Afin de sélectionner par défaut le dernier mois dans la zone de liste
+		// on demande toutes les clés, et on prend la première,
+		// les mois étant triés décroissants
+		$lesCles = array_keys( $lesMois );
+		$moisASelectionner = $lesCles[0];
+		$allVisiteur=$pdo->getAllVisiteurs();
+		include("vues/v_listeVisiteurMois.php");
 	break;
 	}
 }

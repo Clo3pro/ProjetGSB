@@ -1,4 +1,4 @@
-﻿﻿<?php
+﻿﻿﻿<?php
 /** 
  * Classe d'accès aux données. 
  
@@ -46,6 +46,8 @@ class PdoGsb{
 		}
 		return PdoGsb::$monPdoGsb;  
 	}
+
+
 /**
  * Retourne les informations d'un visiteur par login
  
@@ -77,6 +79,20 @@ class PdoGsb{
 		return $ligne;
 	}
 
+	
+/**
+ * Retourne les informations des visiteurs
+ 
+*/
+public function getAllVisiteurs(){
+	$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom, visiteur.role as role from visiteur";
+	$rs = PdoGsb::$monPdo->query($req);
+	$ligne = $rs->fetch();
+	return $ligne;
+}
+
+
+
 /**
  * Retourne sous forme d'un tableau associatif toutes les lignes de frais hors forfait
  * concernées par les deux arguments
@@ -92,7 +108,7 @@ class PdoGsb{
 	    $req = "select * from LigneFraisHorsForfait where LigneFraisHorsForfait.idvisiteur ='$idVisiteur' 
 		and LigneFraisHorsForfait.mois = '$mois' ";	
 		$res = PdoGsb::$monPdo->query($req);
-		$lesLignes = $res->fetchAll();
+		$lesLignes = $res->fetchAll(PDO::FETCH_ASSOC);
 		$nbLignes = count($lesLignes);
 		for ($i=0; $i<$nbLignes; $i++){
 			$date = $lesLignes[$i]['date'];
@@ -245,12 +261,12 @@ class PdoGsb{
  * @param $date : la date du frais au format français jj//mm/aaaa
  * @param $montant : le montant
 */
-	public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$montant){
-		$dateFr = dateFrancaisVersAnglais($date);
-		$req = "insert into LigneFraisHorsForfait (idVisiteur, mois, libelle, date, montant)
-		values($idVisiteur','$mois','$libelle','$dateFr','$montant');";
-		PdoGsb::$monPdo->exec($req);
-	}
+public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$montant){
+	$dateFr = dateFrancaisVersAnglais($date);
+	$req = "insert into lignefraishorsforfait (idVisiteur, mois, libelle, date, montant)
+	values('$idVisiteur','$mois','$libelle','$dateFr','$montant')";
+	PdoGsb::$monPdo->exec($req);
+}
 /**
  * Supprime le frais hors forfait dont l'id est passé en argument
  
@@ -285,6 +301,31 @@ class PdoGsb{
 		}
 		return $lesMois;
 	}
+
+	/**
+ * Retourne les mois
+
+ * @return un tableau associatif de clé un mois -aaaamm- et de valeurs l'année et le mois correspondant 
+*/
+public function getMois(){
+	$req = "select fichefrais.mois as mois from  fichefrais
+	order by fichefrais.mois desc ";
+	$res = PdoGsb::$monPdo->query($req);
+	$lesMois =array();
+	$laLigne = $res->fetch();
+	while($laLigne != null)	{
+		$mois = $laLigne['mois'];
+		$numAnnee =substr( $mois,0,4);
+		$numMois =substr( $mois,4,2);
+		$lesMois["$mois"]=array(
+		 "mois"=>"$mois",
+		"numAnnee"  => "$numAnnee",
+		"numMois"  => "$numMois"
+		 );
+		$laLigne = $res->fetch();
+	}
+	return $lesMois;
+}
 /**
  * Retourne les informations d'une fiche de frais d'un visiteur pour un mois donné
  

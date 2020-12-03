@@ -14,7 +14,7 @@
 			</li>
          <?php if($_SESSION['role'] == "comptable"){
             echo '<li class="smenu">
-              <a href="index.php?uc=gererFrais&action=validerfichefrais" title="Valider les fiches de frais">Valider les fiches de frais</a>
+              <a href="index.php?uc=etatFrais&action=selectionnerMoisPersonne" title="Valider les fiches de frais">Valider les fiches de frais</a>
            </li>';
            }else{
            echo '<li class="smenu">
