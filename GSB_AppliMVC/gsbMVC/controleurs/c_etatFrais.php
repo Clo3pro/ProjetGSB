@@ -19,8 +19,6 @@ switch($action){
 		$moisASelectionner = $leMois;
 		include("vues/v_listeMois.php");
 		$lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur,$leMois);
-		var_dump($lesFraisHorsForfait);
-		var_dump($_POST);
 		$lesFraisForfait= $pdo->getLesFraisForfait($idVisiteur,$leMois);
 		$lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur,$leMois);
 		$numAnnee =substr( $leMois,0,4);
@@ -37,6 +35,7 @@ switch($action){
 		include("vues/v_entete.php");
 		$numMois = $_REQUEST['numMois'];
 		$numAnnee = $_REQUEST['numAnnee'];
+		$montantGlobal = $_REQUEST['montantGlobal'];
 		$mois = $numAnnee."".$numMois;
 		$pdf = new tFPDF();
 		$pdf->AddPage();
@@ -213,6 +212,13 @@ switch($action){
 		$pdf->SetY($position_detail);
 		$pdf->SetX(165);
 		$pdf->MultiCell(30,8,$totalMontantHorsForfait." euros",1,'C');
+		$pdf->Ln(10);
+		$pdf->SetX(135);
+	   	$pdf->SetTextColor(31,73,125);
+		$pdf->SetFont('Helvetica','B',16); 
+		$pdf->Cell(60,0,'Total de '.$montantGlobal.' euros',0,1);
+		// Saut de ligne 10 mm
+		
 		ob_end_clean();
 		$pdf->Output('Fiche de frais.pdf', 'D', true);
 		

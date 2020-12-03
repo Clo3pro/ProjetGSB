@@ -20,8 +20,8 @@
 					<p>
 						<label for="idFrais"><?php echo $libelle ?></label>
 						<input type="text" id="idFrais" name="<?php echo $idFrais?>" size="10" maxlength="5" value="<?php echo $quantite?>" >
-            <input type="text" id="idFrais2" name="montant" size="10" maxlength="5" value="<?php echo $montantUni?>" disabled>
-            <input type="text" id="idFrais3" name="total" size="10" maxlength="5" value="<?php echo $montantTotal?>">
+            <input type="text" id="idFrais2" name="montant" size="10" maxlength="5" value="<?php echo $montantUni?>" disabled>
+            <input type="text" id="idFrais3" name="total" size="10" maxlength="5" value="<?php echo $montantTotal?>" disabled>
 			
           </p>
 
