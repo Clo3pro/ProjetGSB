@@ -86,9 +86,9 @@ class PdoGsb{
  
 */
 public function getAllVisiteurs(){
-	$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom, visiteur.role as role from visiteur";
+	$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom from visiteur";
 	$rs = PdoGsb::$monPdo->query($req);
-	$ligne = $rs->fetch();
+	$ligne = $rs->fetchAll();
 	return $ligne;
 }
 
@@ -274,7 +274,7 @@ public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$mo
  * @param $idFrais 
 */
 	public function supprimerFraisHorsForfait($idFrais){
-		$req = "delete from lignefraishorsforfait where lignefraishorsforfait.id =$idFrais ";
+		$req = "delete from lignefraishorsforfait where lignefraishorsforfait.id =".$idFrais."";
 		PdoGsb::$monPdo->exec($req);
 	}
 /**

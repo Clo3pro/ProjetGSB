@@ -1,7 +1,7 @@
 <div id="contenu">
       <h2>Mes fiches de frais</h2>
-      <h3>Mois à sélectionner : </h3>
-      <form action="index.php?uc=etatFrais&action=voirEtatFrais" method="post">
+      <h3>Mois et personne à sélectionner : </h3>
+      <form action="index.php?uc=etatFrais&action=voirEtatFraisParIdVisiteur" method="post">
       <div class="corpsForm">
          
       <p>
@@ -22,26 +22,24 @@
 				else{ ?>
 				<option value="<?php echo $mois ?>"><?php echo  $numMois."/".$numAnnee ?> </option>
 				<?php 
-				}
-			
-			}
-           
-		   ?>    
+        }
+      }
+		   ?>
             
         </select>
         <select id="personne" name="personne">
             <?php
 			foreach ($allVisiteur as $visiteurs)
 			{
-			    $nom = $visiteurs['nom'];
+			          $nom = $visiteurs['nom'];
                 $prenom =  $visiteurs['prenom'];
-                $id = $visiteurs['id']
+                $id = $visiteurs['id'];
                 ?>
-				<option value="<?php echo $id ?>"><?php echo  $nom." ".$prenom ?> </option>
+				<option value="<?php echo $id?>"><?php echo  $nom." ".$prenom?> </option>
 				<?php
-			}
+      }
+      var_dump($id);
 		   ?>
-            
         </select>
       </p>
       </div>

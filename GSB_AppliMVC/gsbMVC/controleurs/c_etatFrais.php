@@ -31,6 +31,27 @@ switch($action){
 		include("vues/v_etatFrais.php");
 	break;
 	}
+	case 'voirEtatFraisParIdVisiteur' : {
+		$leMois = $_REQUEST['lstMois'];
+		$IdVisiteurSelectionne = $_REQUEST['personne'];
+		$lesMois=$pdo->getMois();
+		$allVisiteur=$pdo->getAllVisiteurs();
+		$visiteurActuel=$pdo->getInfosVisiteurById($IdVisiteurSelectionne);
+		$moisASelectionner = $leMois;
+		include("vues/v_listeVisiteurMois.php");
+		$lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($IdVisiteurSelectionne,$leMois);
+		$lesFraisForfait= $pdo->getLesFraisForfait($IdVisiteurSelectionne,$leMois);
+		$lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($IdVisiteurSelectionne,$leMois);
+		$numAnnee =substr( $leMois,0,4);
+		$numMois =substr( $leMois,4,2);
+		$libEtat = $lesInfosFicheFrais['libEtat'];
+		$montantValide = $lesInfosFicheFrais['montantValide'];
+		$nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+		$dateModif =  $lesInfosFicheFrais['dateModif'];
+		$dateModif =  dateAnglaisVersFrancais($dateModif);
+		include("vues/v_etatFraisParComptable.php");
+		break;
+	}
 	case 'createPDF':{
 		include("vues/v_entete.php");
 		$numMois = $_REQUEST['numMois'];
