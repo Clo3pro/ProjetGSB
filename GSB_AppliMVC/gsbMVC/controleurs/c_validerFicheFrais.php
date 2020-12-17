@@ -40,19 +40,36 @@ switch($action){
 		break;
     }
     case 'ValiderFicheFrais' : {
+        $idVisiteurAModif = $_REQUEST['idVisiteur'];
         if($_REQUEST['supp'] == 1 && !empty($_REQUEST["FraisHorsForfait"])){
             $idFraisASupp = $_REQUEST["FraisHorsForfait"];
             if($idFraisASupp != ""){
+                $chiffreAChanger = substr($mois, -2);
+                    $anneeAGarder = substr($mois, 0, 4);
+                    $anneeAGarderEnNombre = (int) $anneeAGarder;
+                    $chiffreAChangerEnNombre = (int) $chiffreAChanger;
+                    if($chiffreAChangerEnNombre == 12) {
+                        $chiffreAChangerEnNombre = "01";
+                        $anneeAGarderEnNombre = $anneeAGarderEnNombre+1;
+                    }else{
+                        $chiffreAChangerEnNombre++;
+                    }
+                    $newDate = (string) $anneeAGarderEnNombre.$chiffreAChangerEnNombre;
+                    $pdo->creeNouvellesLignesFrais($idVisiteurAModif, $newDate);
+
                 for($i = 0; $i < count($idFraisASupp); $i++){
-                    $pdo->supprimerFraisHorsForfait($idFraisASupp[$i]);
+                    $idFraisAModif = $pdo->getLesFraisHorsForfaitByID($idVisiteurAModif, $mois, $idFraisASupp[$i]);
+                    $pdo->creeNouveauFraisHorsForfait($idVisiteurAModif, $newDate, $idFraisAModif[$i]['libelle'], $idFraisAModif[$i]['date'],$idFraisAModif[$i]['montant']);
+                    $pdo->supprimerFraisHorsForfait( $idFraisASupp[$i]);
                 }
             }
         }
-        $idVisiteurAModif = $_REQUEST['idVisiteur'];
+
+        
         $montantGlobal = $_REQUEST['montantGlobalTotal'];
-        var_dump($_REQUEST['montantGlobalTotal']);
         $pdo->majEtatFicheFrais($idVisiteurAModif, $mois, "CL");
         $pdo->validerFicheFrais($idVisiteurAModif, $mois, $montantGlobal);
+        echo '<h2>La fiche a bien été validé</h2>'
     }
 }
 ?>
