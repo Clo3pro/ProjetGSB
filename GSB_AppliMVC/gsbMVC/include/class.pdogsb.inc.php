@@ -277,6 +277,18 @@ public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$mo
 		$req = "delete from lignefraishorsforfait where lignefraishorsforfait.id =".$idFrais."";
 		PdoGsb::$monPdo->exec($req);
 	}
+
+
+	/**
+	 * Supprime le frais hors forfait dont l'id est passé en argument
+	 
+	* @param $idFrais, $idVisiteur, $mois, $montantValid
+	*/
+	public function validerFicheFrais($idVisiteur, $mois, $montantValid){
+		$req = "update ficheFrais set montantValide = '$montantValid' where fichefrais.idvisiteur ='$idVisiteur' and fichefrais.mois = '$mois'";
+		PdoGsb::$monPdo->exec($req);
+	}
+
 /**
  * Retourne les mois pour lesquel un visiteur a une fiche de frais
  

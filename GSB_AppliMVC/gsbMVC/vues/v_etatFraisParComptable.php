@@ -1,11 +1,3 @@
-<?php if(isset($_GET['idFraisHorsForfait'])){
-    require_once ("include/class.pdogsb.inc.php");
-    $idFrais = $_GET['idFraisHorsForfait'];
-    var_dump($idFrais);
-    supprimerFraisHorsForfait();
-}
-?>
-
 <h3>Fiche de frais du mois <?php echo $numMois."-".$numAnnee. " de ". $visiteurActuel['nom']." ".$visiteurActuel['prenom']?> :
 
 <?php if(count($lesFraisForfait) == 0){
@@ -51,30 +43,36 @@
 		?>
 		
     </table>
-    <form action="#" type="">
+    <form method="POST" action="index.php?uc=validerFicheFrais&action=ValiderFicheFrais&idVisiteur=<?= ($visiteurActuel['id']) ?>&supp=1">
   	<table class="listeLegere">
   	   <caption>Descriptif des éléments hors forfait -<?php echo $nbJustificatifs ?> justificatifs reçus -
        </caption>
              <tr>
                 <th class="date">Date</th>
                 <th class="libelle">Libellé</th>
-                <th class='montant'>Montant<echo th>
+                <th class='montant'>Montant</th>
+                <th class='montant'>Action</th>
              </tr>
         <?php
           foreach ( $lesFraisHorsForfait as $unFraisHorsForfait ) 
 		  {
-			$date = $unFraisHorsForfait['date'];
-			$libelle = $unFraisHorsForfait['libelle'];
+            $date = $unFraisHorsForfait['date'];
+            $libelle = $unFraisHorsForfait['libelle'];
             $montant = $unFraisHorsForfait['montant'];
             $id = $unFraisHorsForfait['id'];
             $montantGlobalTotal += $montant;
 		?>
              <tr>
                 <td><?php echo $date ?></td>
-                <td><?php echo $libelle ?></td>
+                <td><span id="supp" style="color:red;"></span><?php echo $libelle ?></td>
                 <td><?php echo $montant ?></td>
-                <td><?php echo '<a href="index.php?uc=gererFrais&action=supprimerFrais&idFrais='.$id.'" 
-				onclick="return confirm("Voulez-vous vraiment supprimer ce frais ?");">X</a>'; ?></td>
+                <td>
+                  <select name="FraisHorsForfait[]" id="changeComptableFraisHors">
+                    <option value=""></option>
+                    <option value="<?php echo $id; ?>">Refuser</option>
+                  </select>
+                  <input style="display:none" id="montant" value="<?php echo $montant; ?>">
+                </td>
              </tr>
         <?php 
           }
@@ -85,9 +83,43 @@
     <table class="listeLegere" style="margin-right:30px; margin-top:20px" align="right">
     <tr>
     <th>Montant Total du mois</th></tr>
-      <tr><td><?php echo $montantGlobalTotal." euros";?></td></tr>
+      <tr><td><span id="montantGlobal"></span></td></tr>
     </table>
+    <input class="buttonValider" type="submit" value="Valider"/>
   </div>
+  
   </div>
-          <input style="display:none;" name="montantGlobal" value="<?php  echo $montantGlobalTotal; ?>"/>
+          <input style="display:none;" id="montantGlobalTotal" name="montantGlobalTotal" value="<?php echo $montantGlobalTotal; ?>"/>
+        </form>
 <?php } ?>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+   var montantGlobal = "<?php echo $montantGlobalTotal; ?>";
+      $("#montantGlobal").html(montantGlobal);
+      var montantGlob = Number($("#montantGlobalTotal").val());
+      $("#vraiMontantGlobal").html(montantGlob);
+
+$("#changeComptableFraisHors").change(function() {
+  var selected = $("#changeComptableFraisHors").val();
+  var montantGlob = Number($("#montantGlobalTotal").val());
+
+
+    if(selected != ""){
+      $("#supp").html("<B>REFUSE</B> ");
+
+      var montant = Number($("#montant").val());
+      montantGlob = montantGlob - montant;
+      $("#montantGlobalTotal").attr("value", montantGlob);
+      $("#montantGlobal").html(montantGlob); 
+     
+
+    }else{
+      $("#supp").html("");
+      var montant = Number($("#montant").val());
+      montantGlob = montantGlob + montant;
+      $("#montantGlobalTotal").attr("value", montantGlob);
+      $("#montantGlobal").html(montantGlob); 
+
+    }
+});
+</script>

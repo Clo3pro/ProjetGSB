@@ -1,7 +1,7 @@
 <div id="contenu">
-      <h2>Mes fiches de frais</h2>
-      <h3>Mois et personne à sélectionner : </h3>
-      <form action="index.php?uc=etatFrais&action=voirEtatFraisParIdVisiteur" method="post">
+      <h2>Validation des fiche de frais</h2>
+      <h3>Sélectionner un visiteur et une date : </h3>
+      <form action="index.php?uc=validerFicheFrais&action=voirEtatFraisParIdVisiteur" method="post">
       <div class="corpsForm">
          
       <p>
@@ -38,7 +38,6 @@
 				<option value="<?php echo $id?>"><?php echo  $nom." ".$prenom?> </option>
 				<?php
       }
-      var_dump($id);
 		   ?>
         </select>
       </p>
