@@ -10,6 +10,8 @@
 
 <?php if(count($lesFraisForfait) == 0){
         echo "<h3 style='color: red;'>Pas de fiche de frais disponible pour l'instant</h3>";
+    }elseif(isset($_GET['etat'])){
+      echo "<h3 style='color: blue;'>Changement d'état validé.</h3>";
     }else {
     ?>
     </h3>
@@ -26,7 +28,7 @@
             <th>Frais Forfaitaires</th>
             <th>Quantité</th>
             <th>Montant Unitaire</th>
-            <th>Total</th>
+            <th>Montant Total</th>
             
 
         </tr>
@@ -74,8 +76,6 @@
                 <td><?php echo $date ?></td>
                 <td><?php echo $libelle ?></td>
                 <td><?php echo $montant ?></td>
-                <td><?php echo '<a href="index.php?uc=gererFrais&action=supprimerFrais&idFrais='.$id.'" 
-				onclick="return confirm("Voulez-vous vraiment supprimer ce frais ?");">X</a>'; ?></td>
              </tr>
         <?php 
           }
@@ -88,6 +88,7 @@
     <th>Montant Total du mois</th></tr>
       <tr><td><?php echo $montantGlobalTotal." euros";?></td></tr>
     </table>
+  <a href="index.php?uc=suiviFrais&action=majEtatFrais&etat=<?php echo $etat ;?>"><button>Valider</button></a>
   </div>
   </div>
           <input style="display:none;" name="montantGlobal" value="<?php  echo $montantGlobalTotal; ?>"/>
