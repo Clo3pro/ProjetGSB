@@ -305,6 +305,7 @@ public function getLesFraisHorsForfaitByID($idVisiteur,$mois, $idFrais){
  * @param $montant : le montant
 */
 public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$montant){
+	/* $dateToInt = (int) $date; */
 	$dateFr = dateFrancaisVersAnglais($date);
 	$req = "insert into lignefraishorsforfait (idVisiteur, mois, libelle, date, montant)
 	values('$idVisiteur','$mois','$libelle','$dateFr','$montant')";

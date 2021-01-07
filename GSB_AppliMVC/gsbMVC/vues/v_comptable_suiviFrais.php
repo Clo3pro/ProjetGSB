@@ -54,7 +54,7 @@
 		?>
 		
     </table>
-    <form action="#" type="">
+  
   	<table class="listeLegere">
   	   <caption>Descriptif des éléments hors forfait -<?php echo $nbJustificatifs ?> justificatifs reçus -
        </caption>
@@ -88,8 +88,8 @@
     <th>Montant Total du mois</th></tr>
       <tr><td><?php echo $montantGlobalTotal." euros";?></td></tr>
     </table>
-  <a href="index.php?uc=suiviFrais&action=majEtatFrais&etat=<?php echo $etat ;?>"><button>Valider</button></a>
+  <a href="index.php?uc=suiviFrais&action=majEtatFrais&etat=<?php echo $etat ;?>&lstMois=<?php echo $numAnnee.$numMois ;?>&personne=<?php echo $visiteurActuel['id']; ?>"><button>Valider</button></a>
   </div>
   </div>
-          <input style="display:none;" name="montantGlobal" value="<?php  echo $montantGlobalTotal; ?>"/>
+          
 <?php } ?>
