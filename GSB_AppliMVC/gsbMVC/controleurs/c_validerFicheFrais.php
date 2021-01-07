@@ -69,7 +69,7 @@ switch($action){
         $montantGlobal = $_REQUEST['montantGlobalTotal'];
         $pdo->majEtatFicheFrais($idVisiteurAModif, $mois, "CL");
         $pdo->validerFicheFrais($idVisiteurAModif, $mois, $montantGlobal);
-        echo '<h2>La fiche a bien été validé</h2>'
+        echo '<h2>La fiche a bien été validé</h2>';
     }
 }
 ?>
