@@ -49,12 +49,16 @@ switch($action){
                     $anneeAGarderEnNombre = (int) $anneeAGarder;
                     $chiffreAChangerEnNombre = (int) $chiffreAChanger;
                     if($chiffreAChangerEnNombre == 12) {
-                        $chiffreAChangerEnNombre = "01";
+                        $chiffreAChangerEnNombre = 1;
                         $anneeAGarderEnNombre = $anneeAGarderEnNombre+1;
                     }else{
                         $chiffreAChangerEnNombre++;
                     }
-                    $newDate = (string) $anneeAGarderEnNombre.$chiffreAChangerEnNombre;
+                    if($chiffreAChangerEnNombre < 10){
+                        $newDate = (string) $anneeAGarderEnNombre."0".$chiffreAChangerEnNombre;
+                    }else{
+                        $newDate = (string) $anneeAGarderEnNombre.$chiffreAChangerEnNombre;
+                    }
                     $pdo->creeNouvellesLignesFrais($idVisiteurAModif, $newDate);
 
                 for($i = 0; $i < count($idFraisASupp); $i++){
