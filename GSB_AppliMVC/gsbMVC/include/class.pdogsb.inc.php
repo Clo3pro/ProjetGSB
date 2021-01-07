@@ -106,7 +106,7 @@ public function getAllVisiteurs(){
  * @return tous les champs des lignes de frais hors forfait sous la forme d'un tableau associatif 
 */
 	public function getLesFraisHorsForfait($idVisiteur,$mois){
-	    $req = "select * from LigneFraisHorsForfait where LigneFraisHorsForfait.idvisiteur ='$idVisiteur' 
+	    $req = "select * from LigneFraisHorsForfait where LigneFraisHorsForfait.idvisiteur ='$idVisiteur'
 		and LigneFraisHorsForfait.mois = '$mois' ";	
 		$res = PdoGsb::$monPdo->query($req);
 		$lesLignes = $res->fetchAll(PDO::FETCH_ASSOC);
@@ -117,6 +117,32 @@ public function getAllVisiteurs(){
 		}
 		return $lesLignes; 
 	}
+
+
+	
+/**
+ * Retourne sous forme d'un tableau associatif toutes les lignes de frais hors forfait
+ * concernées par les deux arguments
+ 
+ * La boucle foreach ne peut être utilisée ici car on procède
+ * à une modification de la structure itérée - transformation du champ date-
+ 
+ * @param $idVisiteur 
+ * @param $mois sous la forme aaaamm
+ * @return tous les champs des lignes de frais hors forfait sous la forme d'un tableau associatif 
+*/
+public function getLesFraisHorsForfaitByID($idVisiteur,$mois, $idFrais){
+	$req = "select * from LigneFraisHorsForfait where LigneFraisHorsForfait.idvisiteur ='$idVisiteur'
+	and LigneFraisHorsForfait.mois = '$mois' and id = '$idFrais'";
+	$res = PdoGsb::$monPdo->query($req);
+	$lesLignes = $res->fetchAll(PDO::FETCH_ASSOC);
+	$nbLignes = count($lesLignes);
+	for ($i=0; $i<$nbLignes; $i++){
+		$date = $lesLignes[$i]['date'];
+		$lesLignes[$i]['date'] =  dateAnglaisVersFrancais($date);
+	}
+	return $lesLignes; 
+}
 /**
  * Retourne le nombre de justificatif d'un visiteur pour un mois donné
  
@@ -181,6 +207,22 @@ public function getAllVisiteurs(){
 		}
 		
 	}
+/** 
+
+	* @param $idFrais
+	* @param $mois sous la forme aaaamm
+	* @return un tableau associatif 
+   */
+	   public function modifFraisHorsForfait($idFrais, $newMois){
+			$req = "update lignefraishorsforfait set mois = '$newMois'
+			where id = $idFrais";
+			var_dump($req);
+			PdoGsb::$monPdo->exec($req);
+	   }
+
+
+
+
 /**
  * met à jour le nombre de justificatifs de la table ficheFrais
  * pour le mois et le visiteur concerné
@@ -277,6 +319,18 @@ public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$mo
 		$req = "delete from lignefraishorsforfait where lignefraishorsforfait.id =".$idFrais."";
 		PdoGsb::$monPdo->exec($req);
 	}
+
+
+	/**
+	 * Supprime le frais hors forfait dont l'id est passé en argument
+	 
+	* @param $idFrais, $idVisiteur, $mois, $montantValid
+	*/
+	public function validerFicheFrais($idVisiteur, $mois, $montantValid){
+		$req = "update ficheFrais set montantValide = '$montantValid' where fichefrais.idvisiteur ='$idVisiteur' and fichefrais.mois = '$mois'";
+		PdoGsb::$monPdo->exec($req);
+	}
+
 /**
  * Retourne les mois pour lesquel un visiteur a une fiche de frais
  

@@ -1,7 +1,8 @@
 <?php
 require_once("include/fct.inc.php");
 require_once ("include/class.pdogsb.inc.php");
-include("vues/v_entete.php") ;
+include("vues/v_entete.php");
+
 session_start();
 $pdo = PdoGsb::getPdoGsb();
 $estConnecte = estConnecte();
@@ -21,8 +22,11 @@ switch($uc){
 	}
 	case 'suiviFrais' :{
 		include("controleurs/c_suiviFrais.php");break;
+	case 'validerFicheFrais' :{
+		include("controleurs/c_validerFicheFrais.php");break; 
 	}
 }
 include("vues/v_pied.php") ;
 ?>
+
 
