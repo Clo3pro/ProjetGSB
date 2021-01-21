@@ -5,7 +5,7 @@
     supprimerFraisHorsForfait();
 }
 ?>
-
+<!-- force maj git -->
 <h3>Fiche de frais du mois <?php echo $numMois."-".$numAnnee. " de ". $visiteurActuel['nom']." ".$visiteurActuel['prenom']?> :
 
 <?php if(count($lesFraisForfait) == 0){
