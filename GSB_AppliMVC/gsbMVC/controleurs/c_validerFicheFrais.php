@@ -25,7 +25,7 @@ switch($action){
 		$allVisiteur=$pdo->getAllVisiteurs();
 		$visiteurActuel=$pdo->getInfosVisiteurById($IdVisiteurSelectionne);
 		$moisASelectionner = $leMois;
-		include("vues/v_listeVisiteurMois.php");
+		include("vues/v_comptable_listeVisiteurSuivi.php");
 		$lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($IdVisiteurSelectionne,$leMois);
 		$lesFraisForfait= $pdo->getLesFraisForfait($IdVisiteurSelectionne,$leMois);
 		$lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($IdVisiteurSelectionne,$leMois);

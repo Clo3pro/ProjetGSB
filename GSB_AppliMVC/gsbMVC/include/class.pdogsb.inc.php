@@ -57,8 +57,8 @@ class PdoGsb{
  * @return l'id, le nom et le prénom sous la forme d'un tableau associatif 
 */
 	public function getInfosVisiteur($login, $mdp){
-		$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom, visiteur.role as role from visiteur 
-		where visiteur.login='$login' and visiteur.mdp='$mdp'";
+		$req = "select personnel.id as id, personnel.nom as nom, personnel.prenom as prenom, personnel.role as role from personnel 
+		where personnel.login='$login' and personnel.mdp='$mdp'";
 		$rs = PdoGsb::$monPdo->query($req);
 		$ligne = $rs->fetch();
 		return $ligne;
@@ -73,8 +73,8 @@ class PdoGsb{
 	* @return l'id, le nom et le prénom sous la forme d'un tableau associatif 
 	*/
 	public function getInfosVisiteurById($idVisiteur){
-		$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom from visiteur 
-		where visiteur.id = '".$idVisiteur."' ";
+		$req = "select personnel.id as id, personnel.nom as nom, personnel.prenom as prenom from personnel 
+		where personnel.id = '".$idVisiteur."' ";
 		$rs = PdoGsb::$monPdo->query($req);
 		$ligne = $rs->fetch();
 		return $ligne;
@@ -86,7 +86,7 @@ class PdoGsb{
  
 */
 public function getAllVisiteurs(){
-	$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom from visiteur";
+	$req = "select personnel.id as id, personnel.nom as nom, personnel.prenom as prenom from personnel";
 	$rs = PdoGsb::$monPdo->query($req);
 	$ligne = $rs->fetchAll();
 	return $ligne;
