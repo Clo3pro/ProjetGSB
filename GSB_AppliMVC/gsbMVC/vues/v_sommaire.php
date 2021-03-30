@@ -8,11 +8,13 @@
 
       </div>
         <ul id="menuList">
-            <li >
-                  Visiteur :<br>
-                <?php echo $_SESSION['prenom']."  ".$_SESSION['nom']  ?>
-            </li>
-         <?php if($_SESSION['role'] == "comptable"){
+        <?php
+        if($_SESSION['role'] == "comptable"){
+            echo '<li id="firstLiSum">
+                  Comptable :<br>';
+                 echo $_SESSION['prenom']."  ".$_SESSION['nom'] .
+           " </li>"; ?>
+         <?php 
             echo '<li class="smenu">
               <a href="index.php?uc=etatFrais&action=selectionnerMoisPersonne" title="Valider les fiches de frais">Valider les fiches de frais</a>
            </li>';
@@ -20,6 +22,10 @@
            <a href="index.php?uc=suiviFrais&action=selectionnerMoisPersonne" title="Suivi du paiement des fiches de frais">Suivi du paiement des fiches de frais</a>
         </li>';
            }else{
+            echo '<li id="firstLiSum">
+            Visiteur :<br>';
+           echo $_SESSION['prenom']."  ".$_SESSION['nom'] .
+         " </li>";
            echo '<li class="smenu">
               <a href="index.php?uc=gererFrais&action=saisirFrais" title="Saisie fiche de frais ">Saisie fiche de frais</a>
            </li>';

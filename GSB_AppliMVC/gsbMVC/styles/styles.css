@@ -1,6 +1,6 @@
 /* Styles des divisions principales de la page */
 body{
-  background-color: #77AADD;
+  background-color: #B3C8FF;
 	background-image: url(imgs/FONDGLOBAL.jpg);
 	background-repeat: repeat-x;
   margin:0% 0%;
@@ -16,12 +16,15 @@ body{
   padding : 0.1em;
 }
 #entete{
-  background-color:rgb(72,198,236);
+  background-color:#531EFB;
 	color : #980101;
 	border: solid 0.1em #980101;
 	height: 154px;
 	padding: 0em;
 	border-collapse: separate;
+}
+#entete h1{
+  text-shadow: 1px 2px 0 black ;
 }
 #pied{
   clear : both;
@@ -75,18 +78,25 @@ ul#menuList li {
     position:relative;
     margin:0px;
     padding:0px;
+    padding-top:2px;
+    padding-bottom:2px;
 }
 
 /* apparences des liens dans listes et sous-listes non num�rot�es */
 ul#menuList a {
-    color:rgb(0,85,227);
+    color:#4918FF;
     display:block;
     text-decoration:none;
     width:100%;
 }
 ul#menuList a:hover {
-    background: rgb(0,85,227);
+    background-color: #4918FF;
+    border-radius: 2px;
     color: white;
+}
+ul  #firstLiSum{
+  color: #4918FF;
+  margin-bottom: 4px;
 }
 
 #entete #logoGSB {
@@ -156,16 +166,17 @@ form {
 }
 input, button, textarea, select{
   font-family:"Trebuchet MS", sans-serif;
-  font-size : 1em;
+  font-size : 1.3em;
 }
-button{
+
+/*button{
   width : 60px;
   height : 30px;
   text-align:center;
   vertical-align:middle;
-}
-input:hover, textarea:hover, select:hover{
-  background-color : #FAFAE6;
+}*/
+input:hover, textarea:hover, select:hover, button:hover{
+  color : #4918FF;
   cursor : pointer;
 }
 
@@ -232,7 +243,7 @@ taille de caract�res l�g�rement sup�rieure � la normale */
 
 /* Style pour les lignes d'en-t�te des tableaux */
 #contenu th {  
-   background-color:#77AADD;
+   background-color:#B3C8FF;
    height:21px;
    text-align:left;
    vertical-align:top;
@@ -290,10 +301,11 @@ table.listeLegere th.libelle{
 	font-weight: bold;
 	color: #1D2941;
 	text-decoration: none;
-	border : 1px solid #6988BE;
+	border : 1px solid #4918FF;
 	padding-left: 25px;
-	background-color: #E9F1FE;
+	background-color: #B3C8FF;
   height : 28px;
+  padding-top: 3px;
 }
 
 #contenu img {
@@ -308,4 +320,5 @@ table.listeLegere th.libelle{
   margin-left: 50px;
   padding: 10px;
   width: 100px;
+  
 }
