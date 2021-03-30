@@ -175,7 +175,7 @@ input, button, textarea, select{
   text-align:center;
   vertical-align:middle;
 }*/
-input:hover, textarea:hover, select:hover, button:hover{
+input:hover, button:hover{
   color : #4918FF;
   cursor : pointer;
 }
